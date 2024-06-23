@@ -1,5 +1,6 @@
 import os
 import tarfile
+
 import numpy as np
 import pandas as pd
 from scipy.stats import randint
@@ -16,17 +17,12 @@ from sklearn.model_selection import (
 )
 from sklearn.tree import DecisionTreeRegressor
 
-# Downloading housing data from GitHub repository
 DOWNLOAD_ROOT = "https://raw.githubusercontent.com/ageron/handson-ml/master/"
 HOUSING_PATH = os.path.join("datasets", "housing")
 HOUSING_URL = DOWNLOAD_ROOT + "datasets/housing/housing.tgz"
 
 
-# -------------- Functions To fetch and load data--------------------------------
-
-
 def fetch_housing_data(housing_url=HOUSING_URL, housing_path=HOUSING_PATH):
-    """Fetches housing data from a URL and saves it locally."""
     os.makedirs(housing_path, exist_ok=True)
     tgz_path = os.path.join(housing_path, "housing.tgz")
     urllib.request.urlretrieve(housing_url, tgz_path)
@@ -36,21 +32,18 @@ def fetch_housing_data(housing_url=HOUSING_URL, housing_path=HOUSING_PATH):
 
 
 def load_housing_data(housing_path=HOUSING_PATH):
-    """Loads housing data from a CSV file into a Pandas DataFrame."""
     csv_path = os.path.join(housing_path, "housing.csv")
     return pd.read_csv(csv_path)
 
 
-# -------------------------------------------------------------------------------
+
 def income_cat_proportions(data):
-    """Calculates the proportions of each income category in the dataset."""
     return data["income_cat"].value_counts() / len(data)
 
 
 fetch_housing_data()
 housing = load_housing_data()
 
-# split into train and test set
 train_set, test_set = train_test_split(housing, test_size=0.2, random_state=42)
 
 housing["income_cat"] = pd.cut(
@@ -58,6 +51,7 @@ housing["income_cat"] = pd.cut(
     bins=[0.0, 1.5, 3.0, 4.5, 6.0, np.inf],
     labels=[1, 2, 3, 4, 5],
 )
+
 
 split = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
 for train_index, test_index in split.split(housing, housing["income_cat"]):
@@ -85,7 +79,6 @@ compare_props["Strat. %error"] = (
 for set_ in (strat_train_set, strat_test_set):
     set_.drop("income_cat", axis=1, inplace=True)
 
-
 housing = strat_train_set.copy()
 housing.plot(kind="scatter", x="longitude", y="latitude")
 housing.plot(kind="scatter", x="longitude", y="latitude", alpha=0.1)
@@ -102,14 +95,11 @@ housing = strat_train_set.drop(
 )  # drop labels for training set
 housing_labels = strat_train_set["median_house_value"].copy()
 
-# Handling missing values using SimpleImputer
-imputer = SimpleImputer(strategy="median")
-housing_num = housing.drop("ocean_proximity", axis=1)
-imputer.fit(housing_num)
-X = imputer.transform(housing_num)
-housing_tr = pd.DataFrame(X, columns=housing_num.columns, index=housing.index)
 
-# Adding new attribute
+imputer = SimpleImputer(strategy="median")
+
+
+housing_tr = pd.DataFrame(X, columns=housing_num.columns, index=housing.index)
 housing_tr["rooms_per_household"] = housing_tr["total_rooms"] / housing_tr["households"]
 housing_tr["bedrooms_per_room"] = (
     housing_tr["total_bedrooms"] / housing_tr["total_rooms"]
@@ -118,15 +108,14 @@ housing_tr["population_per_household"] = (
     housing_tr["population"] / housing_tr["households"]
 )
 
-
 housing_cat = housing[["ocean_proximity"]]
 housing_prepared = housing_tr.join(pd.get_dummies(housing_cat, drop_first=True))
 
-# Training a Linear Regression model
+
 lin_reg = LinearRegression()
 lin_reg.fit(housing_prepared, housing_labels)
 
-# Evaluating the Linear Regression model
+
 housing_predictions = lin_reg.predict(housing_prepared)
 lin_mse = mean_squared_error(housing_labels, housing_predictions)
 lin_rmse = np.sqrt(lin_mse)
@@ -137,17 +126,15 @@ lin_mae = mean_absolute_error(housing_labels, housing_predictions)
 lin_mae
 
 
-# Training a Decision Tree Regression model
 tree_reg = DecisionTreeRegressor(random_state=42)
 tree_reg.fit(housing_prepared, housing_labels)
 
-# Evaluating the Decision Tree Regression model
 housing_predictions = tree_reg.predict(housing_prepared)
 tree_mse = mean_squared_error(housing_labels, housing_predictions)
 tree_rmse = np.sqrt(tree_mse)
 tree_rmse
 
-# Performing Randomized Search CV for RandomForestRegressor
+
 param_distribs = {
     "n_estimators": randint(low=1, high=200),
     "max_features": randint(low=1, high=8),
