@@ -1,0 +1,19 @@
+{
+    "python.pythonPath": "/home/aayushi78/miniconda3/envs/mle-dev/bin/python",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit"
+    },
+    "[python]": {
+        "editor.tabSize": 4,
+        "editor.formatOnSave": true
+    },
+    "python.formatting.blackArgs": [
+        "--line-length",
+        "88"
+    ],
+    "python.sortImports.args": [
+        "--profile",
+        "black"
+    ]
+}
