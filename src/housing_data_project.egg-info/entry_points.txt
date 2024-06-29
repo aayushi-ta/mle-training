@@ -1,0 +1,4 @@
+[console_scripts]
+ingest_data = src.ingest_data:main
+score_model = src.score:main
+train_model = src.train:main
