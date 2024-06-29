@@ -14,6 +14,69 @@ The following techniques have been used:
  - Multiple sampling techinuqies are evaluated. The data set is split into train and test.
  - All the above said modelling techniques are tried and evaluated. The final metric used to evaluate is mean squared error.
 
+##Project structure
+
+```
+.
+├── README.md
+├── artifacts
+│   └── best_model.pkl
+├── data
+│   ├── processed
+│   │   ├── test.csv
+│   │   └── train.csv
+│   └── raw
+│       ├── housing.csv
+│       └── housing.tgz
+├── dist
+│   ├── housing_data_project-0.2-py3-none-any.whl
+│   └── housing_data_project-0.2.tar.gz
+├── docs
+│   ├── Makefile
+│   ├── _build
+│   │   ├── doctrees
+│   │   └── html
+│   │       ├── _sources
+│   │       ├── _static
+│   │       ├── genindex.html
+│   │       ├── index.html
+│   │       ├── ingest_data.html
+│   │       ├── modules.html
+│   │       ├── objects.inv
+│   │       ├── score.html
+│   │       ├── search.html
+│   │       ├── searchindex.js
+│   │       └── train.html
+│   ├── _static
+│   ├── _templates
+│   ├── conf.py
+│   ├── index.rst
+│   ├── ingest_data.rst
+│   ├── make.bat
+│   ├── modules.rst
+│   ├── score.rst
+│   └── train.rst
+├── env.yml
+├── isort.cfg
+├── nonstandardcode.py
+├── pyproject.toml
+├── scores
+│   └── scores.txt
+├── setup.py
+├── src
+│   ├── __init__.py
+│   ├── housing_data_project.egg-info
+│   │   └── top_level.txt
+│   ├── ingest_data.py
+│   ├── score.py
+│   └── train.py
+└── tests
+    ├── __pycache__
+    ├── test_data_ingestion.py
+    ├── test_installation.py
+    └── test_training.py
+```
+markdown
 ## Execution Instructions
 
 ### Installation
@@ -23,20 +86,26 @@ To install and run this project, follow these steps:
 1. Clone the repository:
 
 ```bash
-git clone <repository_url>
-cd <project_directory>
+git clone https://github.com/aayushi-ta/mle-training.git
+cd mle-training
 ```
 
 2.Install dependencies using Conda:
 
 ```bash
 conda env create -f env.yml
-conda activate <environment_name>
+conda activate mle-dev
 ```
 3. Install the package:
 
 ```bash
 python -m pip install .
+```
+
+or
+
+```bash
+pip install housing_data_project-0.2-py3-none-any.whl
 ```
 
 Usage
@@ -67,14 +136,14 @@ python src/score.py --model-folder artifacts --dataset-folder data/processed --o
 
 scores
 Logging
-All scripts support logging configuration. Example usage:
+All scripts in src support logging configuration. Example usage:
 
 ```bash
 python src/train.py --log-level DEBUG --log-path logs/training.log
 ```
 
 Testing
-To verify correct installation and functionality, run:
+To verify correct installation and functionality, go inside tests directory and run:
 
 ```bash
 pytest
