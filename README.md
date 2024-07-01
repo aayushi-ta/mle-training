@@ -1,8 +1,8 @@
 # Median housing value prediction
 
-The housing data can be downloaded from https://raw.githubusercontent.com/ageron/handson-ml/master/. The script has codes to download the data. We have modelled the median house value on given housing data. 
+The housing data can be downloaded from https://raw.githubusercontent.com/ageron/handson-ml/master/. The script has codes to download the data. We have modelled the median house value on given housing data.
 
-The following techniques have been used: 
+The following techniques have been used:
 
  - Linear regression
  - Decision Tree
@@ -14,37 +14,140 @@ The following techniques have been used:
  - Multiple sampling techinuqies are evaluated. The data set is split into train and test.
  - All the above said modelling techniques are tried and evaluated. The final metric used to evaluate is mean squared error.
 
+##Project structure
+
+```
+.
+├── README.md
+├── artifacts
+│   └── best_model.pkl
+├── data
+│   ├── processed
+│   │   ├── test.csv
+│   │   └── train.csv
+│   └── raw
+│       ├── housing.csv
+│       └── housing.tgz
+├── dist
+│   ├── housing_data_project-0.2-py3-none-any.whl
+│   └── housing_data_project-0.2.tar.gz
+├── docs
+│   ├── Makefile
+│   ├── _build
+│   │   ├── doctrees
+│   │   └── html
+│   │       ├── _sources
+│   │       ├── _static
+│   │       ├── genindex.html
+│   │       ├── index.html
+│   │       ├── ingest_data.html
+│   │       ├── modules.html
+│   │       ├── objects.inv
+│   │       ├── score.html
+│   │       ├── search.html
+│   │       ├── searchindex.js
+│   │       └── train.html
+│   ├── _static
+│   ├── _templates
+│   ├── conf.py
+│   ├── index.rst
+│   ├── ingest_data.rst
+│   ├── make.bat
+│   ├── modules.rst
+│   ├── score.rst
+│   └── train.rst
+├── env.yml
+├── isort.cfg
+├── nonstandardcode.py
+├── pyproject.toml
+├── scores
+│   └── scores.txt
+├── setup.py
+├── src
+│   ├── __init__.py
+│   ├── housing_data_project.egg-info
+│   │   └── top_level.txt
+│   ├── ingest_data.py
+│   ├── score.py
+│   └── train.py
+└── tests
+    ├── __pycache__
+    ├── test_data_ingestion.py
+    ├── test_installation.py
+    └── test_training.py
+```
+markdown
 ## Execution Instructions
 
-### 1. Environment Setup
+### Installation
 
-To set up the environment, create the `mle-dev` environment from `env.yml` using the following command:
+To install and run this project, follow these steps:
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/aayushi-ta/mle-training.git
+cd mle-training
+```
+
+2.Install dependencies using Conda:
 
 ```bash
 conda env create -f env.yml
-```
-
-Activate the mle-dev environment using:
-```bash
 conda activate mle-dev
 ```
-
-To execute the Python script for predicting median housing values, use the following command:
+3. Install the package:
 
 ```bash
-python nonstandardcode.py
+python -m pip install .
 ```
 
-After running script, output should look like this:
+or
 
-![bandicam 2024-06-19 18-25-18-047](https://github.com/aayushi-ta/mle-training/assets/171973120/fd1dc0cc-1793-48d2-ada7-610d4d1dc9df)
+```bash
+pip install housing_data_project-0.2-py3-none-any.whl
+```
+
+Usage
+
+Data Ingestion
+
+Run ingest_data.py to download and create training and validation datasets:
 
 
+```bash
+python src/ingest_data.py --output-folder data/processed
+```
 
+Model Training
 
+Run train.py to train the model:
 
+```bash
+python src/train.py --input-folder data/processed --output-folder artifacts
+```
 
+Model Scoring
+Run score.py to score the model:
 
+```bash
+python src/score.py --model-folder artifacts --dataset-folder data/processed --output-folder
+```
+
+scores
+Logging
+All scripts in src support logging configuration. Example usage:
+
+```bash
+python src/train.py --log-level DEBUG --log-path logs/training.log
+```
+
+Testing
+To verify correct installation and functionality, go inside tests directory and run:
+
+```bash
+pytest
+```
 
 
 
