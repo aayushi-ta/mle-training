@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/cb89eaabbc3b4e53837d00f501cb694d/artifacts
+end_time: 1720092178052
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: cb89eaabbc3b4e53837d00f501cb694d
+run_name: Model Training
+run_uuid: cb89eaabbc3b4e53837d00f501cb694d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1720092108200
+status: 4
+tags: []
+user_id: aayushi78

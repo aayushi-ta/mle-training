@@ -1,11 +1,13 @@
 import argparse
 import logging
 import os
-
+import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.impute import SimpleImputer
+from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import GridSearchCV
+import mlflow
 
 
 def load_data(file_path):
@@ -45,7 +47,7 @@ def prepare_features(data):
         raise
 
 
-def train_model(train_data, output_folder):
+def train_model(train_data, output_folder, args):
     """
     Trains a RandomForestRegressor model using GridSearchCV and saves the best model.
 
@@ -84,6 +86,13 @@ def train_model(train_data, output_folder):
     model_path = os.path.join(output_folder, "best_model.pkl")
     pd.to_pickle(best_model, model_path)
 
+    mlflow.log_params(vars(args))  # Logging parameters here
+
+    final_predictions = best_model.predict(train_set_prepared)
+    mse = mean_squared_error(train_set_labels, final_predictions)
+    rmse = np.sqrt(mse)
+    mlflow.log_metric("rmse", rmse)
+
     logging.info(f"Model training completed. Model saved to {model_path}")
 
 
@@ -120,5 +129,5 @@ if __name__ == "__main__":
 
     logging.info("Starting model training process")
     train_data = os.path.join(args.input_folder, "train.csv")
-    train_model(train_data, args.output_folder)
+    train_model(train_data, args.output_folder, args)
     logging.info("Model training completed successfully")

@@ -6,6 +6,7 @@ import tarfile
 import pandas as pd
 from six.moves import urllib
 from sklearn.model_selection import StratifiedShuffleSplit
+import mlflow
 
 DOWNLOAD_ROOT = "https://raw.githubusercontent.com/ageron/handson-ml/master/"
 HOUSING_PATH = os.path.join("..", "data", "raw")
@@ -107,6 +108,12 @@ if __name__ == "__main__":
     if args.no_console_log and not args.log_path:
         logging.getLogger().addHandler(logging.NullHandler())
 
-    logging.info("Starting data ingestion process")
-    prepare_data(args.output_folder)
-    logging.info("Data ingestion completed successfully")
+    with mlflow.start_run(run_name="Data Ingestion") as run:
+        mlflow.log_params(vars(args))
+
+        logging.info("Starting data ingestion process")
+        train_file, test_file = prepare_data(args.output_folder)
+        logging.info("Data ingestion completed successfully")
+
+        mlflow.log_artifact(train_file, "processed_data")
+        mlflow.log_artifact(test_file, "processed_data")
