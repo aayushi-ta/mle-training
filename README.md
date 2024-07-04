@@ -14,6 +14,10 @@ The following techniques have been used:
  - Multiple sampling techinuqies are evaluated. The data set is split into train and test.
  - All the above said modelling techniques are tried and evaluated. The final metric used to evaluate is mean squared error.
 
+## MLflow Integration
+
+This project integrates MLflow for experiment tracking and model management.
+
 ##Project structure
 
 ```
@@ -140,6 +144,12 @@ All scripts in src support logging configuration. Example usage:
 
 ```bash
 python src/train.py --log-level DEBUG --log-path logs/training.log
+```
+
+MLflow Integration
+
+```
+mlflow server --host 127.0.0.1 --port 8080
 ```
 
 Testing
