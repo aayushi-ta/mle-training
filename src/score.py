@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 from sklearn.impute import SimpleImputer
 from sklearn.metrics import mean_squared_error
+import mlflow
 
 
 def load_data(file_path):
@@ -76,6 +77,11 @@ def score_model(model_path, test_data, output_folder):
         f.write(f"RMSE: {rmse}\n")
 
     logging.info(f"Model scoring completed. Scores saved to {scores_path}")
+
+    with mlflow.start_run(run_name="Model Scoring", nested=True) as run:
+        mlflow.log_params(vars(args))
+        mlflow.log_metric("RMSE", rmse)
+        mlflow.log_artifact(scores_path)
 
 
 if __name__ == "__main__":

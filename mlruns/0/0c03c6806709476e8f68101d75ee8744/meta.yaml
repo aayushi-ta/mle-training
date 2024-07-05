@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/0c03c6806709476e8f68101d75ee8744/artifacts
+end_time: 1720092500072
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 0c03c6806709476e8f68101d75ee8744
+run_name: Data Ingestion
+run_uuid: 0c03c6806709476e8f68101d75ee8744
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1720092498935
+status: 3
+tags: []
+user_id: aayushi78
