@@ -109,7 +109,7 @@ python -m pip install .
 or
 
 ```bash
-pip install housing_data_project-0.2-py3-none-any.whl
+pip install dist/housing_data_project-0.2-py3-none-any.whl
 ```
 
 Usage
