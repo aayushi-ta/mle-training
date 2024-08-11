@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/ac6ee0972123459aa324639092cfee46/artifacts
+end_time: 1723352718873
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: ac6ee0972123459aa324639092cfee46
+run_name: delightful-lark-834
+run_uuid: ac6ee0972123459aa324639092cfee46
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1723352718768
+status: 3
+tags: []
+user_id: aayushi

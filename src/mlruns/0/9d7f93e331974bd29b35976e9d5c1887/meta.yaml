@@ -1,0 +1,15 @@
+artifact_uri: file:///home/aayushi/mle-training/src/mlruns/0/9d7f93e331974bd29b35976e9d5c1887/artifacts
+end_time: 1723358800373
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 9d7f93e331974bd29b35976e9d5c1887
+run_name: unruly-doe-452
+run_uuid: 9d7f93e331974bd29b35976e9d5c1887
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1723358800264
+status: 3
+tags: []
+user_id: aayushi

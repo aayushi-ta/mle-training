@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/008e2c3924b64ad7a5664be0bd298769/artifacts
+end_time: 1723358509477
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 008e2c3924b64ad7a5664be0bd298769
+run_name: adventurous-mule-357
+run_uuid: 008e2c3924b64ad7a5664be0bd298769
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1723358509378
+status: 3
+tags: []
+user_id: aayushi

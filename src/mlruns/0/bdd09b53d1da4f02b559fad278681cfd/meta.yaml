@@ -1,0 +1,15 @@
+artifact_uri: file:///home/aayushi/mle-training/src/mlruns/0/bdd09b53d1da4f02b559fad278681cfd/artifacts
+end_time: 1723358879091
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: bdd09b53d1da4f02b559fad278681cfd
+run_name: Model Scoring
+run_uuid: bdd09b53d1da4f02b559fad278681cfd
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1723358879079
+status: 3
+tags: []
+user_id: aayushi
