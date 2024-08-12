@@ -2,58 +2,35 @@ import argparse
 import logging
 import os
 import tarfile
-
 import pandas as pd
-from six.moves import urllib
+from six.moves import urllib  # type: ignore
 from sklearn.model_selection import StratifiedShuffleSplit
-import mlflow
 
 DOWNLOAD_ROOT = "https://raw.githubusercontent.com/ageron/handson-ml/master/"
-HOUSING_PATH = os.path.join("..", "data", "raw")
+HOUSING_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "raw")
 HOUSING_URL = DOWNLOAD_ROOT + "datasets/housing/housing.tgz"
 
 
 def fetch_housing_data(housing_url=HOUSING_URL, housing_path=HOUSING_PATH):
-    """
-    Fetches the housing data from a specified URL and saves it locally.
-
-    Parameters:
-    housing_url (str): URL of the housing data file.
-    housing_path (str): Local directory where the data will be saved.
-    """
+    logging.info(f"Fetching data from {housing_url}")
     os.makedirs(housing_path, exist_ok=True)
+    logging.info(f"Created directory {housing_path}")
     tgz_path = os.path.join(housing_path, "housing.tgz")
     urllib.request.urlretrieve(housing_url, tgz_path)
+    logging.info(f"Downloaded housing data to {tgz_path}")
     housing_tgz = tarfile.open(tgz_path)
     housing_tgz.extractall(path=housing_path)
     housing_tgz.close()
+    logging.info(f"Extracted housing data to {housing_path}")
 
 
 def load_housing_data(housing_path=HOUSING_PATH):
-    """
-    Loads the housing data from a CSV file.
-
-    Parameters:
-    housing_path (str): Local directory where the data is stored.
-
-    Returns:
-    pandas.DataFrame: Loaded housing data as a pandas DataFrame.
-    """
     csv_path = os.path.join(housing_path, "housing.csv")
+    logging.info(f"Loading data from {csv_path}")
     return pd.read_csv(csv_path)
 
 
 def prepare_data(output_folder):
-    """
-    Prepares the housing data for training and validation.
-
-    This function fetches the housing data, splits it into training and testing sets
-    using stratified sampling based on income categories, and saves the processed
-    data as CSV files.
-
-    Parameters:
-    output_folder (str): Path to the directory where processed data will be saved.
-    """
     fetch_housing_data()
     housing = load_housing_data()
 
@@ -71,13 +48,19 @@ def prepare_data(output_folder):
     for set_ in (strat_train_set, strat_test_set):
         set_.drop("income_cat", axis=1, inplace=True)
 
-    os.makedirs(os.path.join(output_folder, "processed"), exist_ok=True)
-    strat_train_set.to_csv(
-        os.path.join(output_folder, "processed", "train.csv"), index=False
-    )
-    strat_test_set.to_csv(
-        os.path.join(output_folder, "processed", "test.csv"), index=False
-    )
+    processed_path = os.path.join(output_folder, "processed")
+    os.makedirs(processed_path, exist_ok=True)
+    logging.info(f"Created directory {processed_path}")
+
+    train_file = os.path.join(processed_path, "train.csv")
+    test_file = os.path.join(processed_path, "test.csv")
+
+    strat_train_set.to_csv(train_file, index=False)
+    strat_test_set.to_csv(test_file, index=False)
+    logging.info(f"Saved train data to {train_file}")
+    logging.info(f"Saved test data to {test_file}")
+
+    return train_file, test_file
 
 
 if __name__ == "__main__":
@@ -86,7 +69,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--output-folder",
-        default=os.path.join("..", "data"),
+        default=os.path.join(os.path.dirname(__file__), "..", "data"),
         help="Path to save the output data",
     )
     parser.add_argument("--log-level", default="INFO", help="Set the logging level")
@@ -108,12 +91,6 @@ if __name__ == "__main__":
     if args.no_console_log and not args.log_path:
         logging.getLogger().addHandler(logging.NullHandler())
 
-    with mlflow.start_run(run_name="Data Ingestion") as run:
-        mlflow.log_params(vars(args))
-
-        logging.info("Starting data ingestion process")
-        train_file, test_file = prepare_data(args.output_folder)
-        logging.info("Data ingestion completed successfully")
-
-        mlflow.log_artifact(train_file, "processed_data")
-        mlflow.log_artifact(test_file, "processed_data")
+    logging.info(f"Starting data preparation with output folder {args.output_folder}")
+    train_file, test_file = prepare_data(args.output_folder)
+    logging.info(f"Data preparation completed. Train file: {train_file}, Test file: {test_file}")

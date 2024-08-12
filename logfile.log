@@ -1,0 +1,10 @@
+2024-08-11 11:55:49,051 - root - INFO - Starting data preparation with output folder src/../data
+2024-08-11 11:55:49,051 - root - INFO - Fetching data from https://raw.githubusercontent.com/ageron/handson-ml/master/datasets/housing/housing.tgz
+2024-08-11 11:55:49,051 - root - INFO - Created directory src/../data/raw
+2024-08-11 11:55:49,558 - root - INFO - Downloaded housing data to src/../data/raw/housing.tgz
+2024-08-11 11:55:49,583 - root - INFO - Extracted housing data to src/../data/raw
+2024-08-11 11:55:49,583 - root - INFO - Loading data from src/../data/raw/housing.csv
+2024-08-11 11:55:49,621 - root - INFO - Created directory src/../data/processed
+2024-08-11 11:55:49,728 - root - INFO - Saved train data to src/../data/processed/train.csv
+2024-08-11 11:55:49,728 - root - INFO - Saved test data to src/../data/processed/test.csv
+2024-08-11 11:55:49,728 - root - INFO - Data preparation completed. Train file: src/../data/processed/train.csv, Test file: src/../data/processed/test.csv
